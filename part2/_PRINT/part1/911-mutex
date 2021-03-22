@@ -1,0 +1,82 @@
+==ex1-race-condition.go========================
+package main  
+import (  
+    "fmt"
+    "sync"
+    )
+var x  = 0  
+func increment(wg *sync.WaitGroup) {  
+    x = x + 1
+    wg.Done()
+}
+func main() {  
+    var w sync.WaitGroup
+    for i := 0; i < 1000; i++ {
+        w.Add(1)        
+        go increment(&w)
+    }
+    w.Wait()
+    fmt.Println("final value of x", x)
+}
+==ex2-race-condition-handling-by-mutex.go========================
+
+package main  
+import (  
+    "fmt"
+    "sync"
+    )
+var x  = 0  
+func increment(wg *sync.WaitGroup, m *sync.Mutex) {  
+    m.Lock()
+    x = x + 1
+    m.Unlock()
+    wg.Done()   
+}
+func main() {  
+    var w sync.WaitGroup
+    var m sync.Mutex
+    for i := 0; i < 1000; i++ {
+        w.Add(1)        
+        go increment(&w, &m)
+    }
+    w.Wait()
+    fmt.Println("final value of x", x)
+}
+==ex3-race-condition-handling-by-channel.go========================
+package main  
+import (  
+    "fmt"
+    "sync"
+    )
+var x  = 0  
+func increment(wg *sync.WaitGroup, ch chan bool) {  
+    ch <- true
+    x = x + 1
+    <- ch
+    wg.Done()   
+}
+func main() {  
+    var w sync.WaitGroup
+    ch := make(chan bool, 1)
+    for i := 0; i < 1000; i++ {
+        w.Add(1)        
+        go increment(&w, ch)
+    }
+    w.Wait()
+    fmt.Println("final value of x", x)
+}
+==readme.txt========================
+Mutex vs Channels
+We have solved the race condition problem using both mutexes and channels. So how do we decide what to use when. The answer lies in the problem you are trying to solve. If the problem you are trying to solve is a better fit for mutexes then go ahead and use mutex. Do not hesitate to use mutex if needed. If the problem seems to be a better fit for channels, then use it :).
+
+Most Go newbies try to solve every concurrency problem using a channel as it is a cool feature of the language. This is wrong. The language gives us the option to either use Mutex or Channel and there is no wrong in choosing either.
+
+###########################
+In general use channels when Goroutines need to communicate with each other and mutexes when only one Goroutine should access the critical section of code.
+###########################
+
+In the case of the problem which we solved above, I would prefer to use mutex since this problem does not require any communication between the goroutines. Hence mutex would be a natural fit.
+
+My advice would be to choose the tool for the problem and do not try to fit the problem for the tool :)
+
+This brings us to an end of this tutorial. Have a great day.

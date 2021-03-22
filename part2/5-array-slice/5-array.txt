@@ -1,0 +1,56 @@
+1. Using var keyword: In Go language, an array is created using the var keyword of a particular type with name, size, and elements.
+
+Syntax:
+Var array_name[length]Type
+or
+var array_name[length]Typle{item1, item2, item3, ...itemN}
+
+
+
+2. Using shorthand declaration: In Go language, arrays can also declare using shorthand declaration. It is more flexible than the above declaration.
+
+Syntax:
+
+array_name:= [length]Type{item1, item2, item3,...itemN}
+
+++++++++++++++++
+1 . In an array, if an array does not initialized explicitly, then the default value of this array is 0.
+var myarr[2]int => [0 0]
+ 
+2. In an array, you can find the length of the array using len() method as shown below:
+arr1:= [3]int{9,7,6} //len(arr1)
+arr2:= [...]int{9,7,6,4,5,3,2,4} //len(arr2)
+
+
+3. In an array, if ellipsis ... become visible at the place of length, then the length of the array is determined by the initialized elements. As shown in the below example: 
+myarray:= [...]string{"aaa", "bbb", "ccc"} 
+fmt.Println("Elements of the array: ", myarray) 
+
+4. In an array, you are allowed to iterate over the range of the elements of the array. As shown in the below example: 
+myarray:= [...]int{29, 79, 49, 39, 
+                   20, 49, 48, 49} 
+  
+// Iterate array using for loop 
+for x:=0; x < len(myarray); x++{ 
+fmt.Printf("%d\n", myarray[x]) 
+} 
+
+5. In Go language, an array is of value type not of reference type. So when the array is assigned to a new variable, then the changes made in the new variable do not affect the original array. As shown in the below example: 
+
+my_array:= [...]int{10, 20, 30, 40, 50} 
+fmt.Println("New array(before):", new_array) 
+new_array[0] = 50 
+fmt.Println("New array(After):", new_array) 
+
+
+6. In an array, if the element type of the array is comparable, then the array type is also comparable. So we can directly compare two arrays using == operator. As shown in the below example:
+Example:
+  
+arr1:= [3]int{9,7,6} 
+arr2:= [...]int{9,7,6} 
+arr3:= [3]int{9,5,3} 
+  
+// Comparing arrays using == operator 
+fmt.Println(arr1==arr2) 
+fmt.Println(arr2==arr3) 
+fmt.Println(arr1==arr3) 

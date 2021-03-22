@@ -1,0 +1,228 @@
+==ex1-basic.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func main() {  
+    var personSalary map[string]int
+    if personSalary == nil {
+        fmt.Println("map is nil. Going to make one.")
+        personSalary = make(map[string]int)
+    }
+}
+==ex10-map-nil.go========================
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+
+	map_nil()
+	map_not_nil()
+
+}
+
+func map_nil() {
+	var map1 map[string]int
+
+	/*
+		//Invalid operation: map1 == map2 (map can only be compared to nil).
+		map2 := map[string]int{"three" : 3}
+		if map1 == map2 {
+		}
+	*/
+
+	fmt.Println(map1) //map[]
+	if map1 == nil {
+		fmt.Println("map is empty") //map is empty
+	}
+}
+
+func map_not_nil() {
+
+	map1 := make(map[string]int)
+	//map1 := map[string]int{}
+
+	fmt.Println(map1) //map[]
+	if map1 == nil {
+		fmt.Println("map is empty") //not printed
+	}
+
+}
+
+==ex11-map-compare.go========================
+package main
+
+import "fmt"
+import "reflect"
+
+func main() {
+
+	/*
+		var map1 map[string]int
+			//Invalid operation: map1 == map2 (map can only be compared to nil).
+			map2 := map[string]int{"three" : 3}
+			if map1 == map2 {
+			}
+	*/
+
+	map1 := make(map[string]int)
+	map2 := make(map[string]int)
+
+	map1["aaa"] = 10
+	map2["aaa"] = 10
+
+	eq := reflect.DeepEqual(map1, map2)
+	if eq {
+		fmt.Println("Two maps are equal")
+	} else {
+		fmt.Println("Two maps are not equal")
+	}
+
+}
+
+==ex2-make.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func main() {  
+    personSalary := make(map[string]int)
+    personSalary["steve"] = 12000
+    personSalary["jamie"] = 15000
+    personSalary["mike"] = 9000
+    fmt.Println("personSalary map contents:", personSalary)
+}
+==ex3-without-make.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func main() {  
+    personSalary := map[string]int {
+        "steve": 12000,
+        "jamie": 15000,
+    }
+    personSalary["mike"] = 9000
+    fmt.Println("personSalary map contents:", personSalary)
+}
+==ex4-accessing.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+
+func main() {  
+    personSalary := map[string]int{
+        "steve": 12000,
+        "jamie": 15000,
+    }
+    personSalary["mike"] = 9000
+    employee := "jamie"
+    fmt.Println("Salary of", employee, "is", personSalary[employee])
+    fmt.Println("Salary of joe is", personSalary["joe"])
+}
+==ex5-in_array.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func main() {  
+    personSalary := map[string]int{
+        "steve": 12000,
+        "jamie": 15000,
+    }
+    personSalary["mike"] = 9000
+    newEmp := "joe"
+    value, ok := personSalary[newEmp]
+    if ok == true {
+        fmt.Println("Salary of", newEmp, "is", value)
+    } else {
+        fmt.Println(newEmp,"not found")
+    }
+
+}
+==ex6_iterate.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func main() {  
+    personSalary := map[string]int{
+        "steve": 12000,
+        "jamie": 15000,
+    }
+    personSalary["mike"] = 9000
+    fmt.Println("All items of a map")
+    for key, value := range personSalary {
+        fmt.Printf("personSalary[%s] = %d\n", key, value)
+    }
+
+}
+==ex7-delete-item.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func main() {  
+    personSalary := map[string]int{
+        "aaa": 10,
+        "bbb": 20,
+    }
+    personSalary["ccc"] = 30
+    fmt.Println("map before deletion", personSalary)
+    delete(personSalary, "bbb")
+    fmt.Println("map after deletion", personSalary)
+
+}
+==ex8-map-len.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func main() {  
+    personSalary := map[string]int{
+        "aa": 10,
+        "bb": 20,
+    }
+    personSalary["cc"] = 30
+    fmt.Println("length is", len(personSalary))
+
+}
+==ex9-map-reference-type.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func main() {  
+    personSalary := map[string]int{
+        "aa": 10,
+        "bb": 20,
+    }
+    personSalary["cc"] = 30
+    fmt.Println("Original person salary", personSalary)
+    newPersonSalary := personSalary
+    newPersonSalary["dd"] = 40
+    fmt.Println("Person salary changed", personSalary)
+
+}

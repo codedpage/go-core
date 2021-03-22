@@ -1,0 +1,277 @@
+==ex1-named-struct.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+type Employee struct {  
+    firstName, lastName string
+    age, salary         int
+}
+
+func main() {
+
+    //creating structure using field names
+    emp1 := Employee{
+        firstName: "aa",
+        age:       25,
+        salary:    500,
+        lastName:  "aaa",
+    }
+
+    //creating structure without using field names
+    emp2 := Employee{"bb", "bbb", 29, 800}
+
+    fmt.Println("Employee 1", emp1)	//Employee 1 {Sam Anderson 25 500}
+    fmt.Println("Employee 2", emp2) //Employee 2 {Thomas Paul 29 800}
+
+}
+==ex10-structs-equality.go========================
+/*
+Struct variables are not comparable if they contain fields which are not comparable 
+
+main.go:18: invalid operation: image1 == image2 (struct containing map[int]int cannot be compared).
+*/
+
+package main
+
+import (  
+    "fmt"
+)
+
+type image struct {  
+    data map[int]int
+}
+
+func main() {  
+    image1 := image{data: map[int]int{
+        0: 155,
+    }}
+    image2 := image{data: map[int]int{
+        0: 155,
+    }}
+    if image1 == image2 {
+        fmt.Println("image1 and image2 are equal")
+    }
+}
+==ex2-anonymous-struct.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func main() {  
+    emp3 := struct {
+        firstName, lastName string
+        age, salary         int
+    }{
+        firstName: "Andreah",
+        lastName:  "Nikola",
+        age:       31,
+        salary:    5000,
+    }
+
+    fmt.Println("Employee 3", emp3)
+}
+==ex3-zero-value-struct.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+type Employee struct {  
+    firstName, lastName string
+    age, salary         int
+}
+
+func main() {  
+    var emp4 Employee //zero valued structure
+    fmt.Println("Employee 4", emp4)
+}
+==ex4.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+type Employee struct {  
+    firstName, lastName string
+    age, salary         int
+}
+
+
+func main1() {  
+    emp := Employee{
+        firstName: "aa",
+        lastName:  "aaa",
+    }
+    fmt.Println("Employee", emp)	//Employee 5 {John Paul 0 0}
+}
+
+func main2() {  
+    emp6 := Employee{"bb", "bbb", 55, 6000}
+    fmt.Println("First Name:", emp6.firstName)
+    fmt.Println("Last Name:", emp6.lastName)
+    fmt.Println("Age:", emp6.age)
+    fmt.Printf("Salary: $%d", emp6.salary)
+}
+
+func main() {  
+    var emp7 Employee
+    emp7.firstName = "cc"
+    emp7.lastName = "ccc"
+    fmt.Println("Employee 7:", emp7) //Employee 7: {Jack Adams 0 0}
+}
+==ex5-pointer.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+type Employee struct {  
+    firstName, lastName string
+    age, salary         int
+}
+
+func main() {  
+    emp8 := &Employee{"aa", "xx", 20, 2000}
+    fmt.Println("First Name:", (*emp8).firstName) 
+    fmt.Println("Age:", (*emp8).age)
+	
+    fmt.Println("First Name:", emp8.firstName)	//also allowed
+    fmt.Println("Age:", emp8.age)				//also allowed
+	
+    emp81 := Employee{"bb", "xx", 40, 4000}	
+    fmt.Println("First Name:", (emp81).firstName)
+    fmt.Println("Age:", (emp81).age)	
+}
+==ex6-anonymous-field.go========================
+package main
+
+import (
+	"fmt"
+)
+
+type Person struct {
+	string
+	int
+}
+
+func main() {
+	main1()
+	main2()
+}
+
+///////////////
+func main1() {
+	p := Person{"aa", 50}
+	fmt.Println(p) //{aa 50}
+
+	//not allowed - not in proper sequence
+	//q := Person{ 40,"bb" }
+	//fmt.Println(q)
+}
+
+func main2() {
+	var p1 Person
+	p1.string = "cc"
+	p1.int = 20
+	fmt.Println(p1) //{cc 20}
+}
+
+==ex7-nested.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+type Address struct {  
+    city, state string
+}
+type Person struct {  
+    name string
+    age int
+    address Address
+}
+
+func main() {  
+    var p Person
+    p.name = "aa"
+    p.age = 20
+    p.address = Address {
+        city: "New Delhi",
+        state: "Delhi",
+    }
+    fmt.Println("Name:", p.name)
+    fmt.Println("Age:",p.age)
+    fmt.Println("City:",p.address.city)
+    fmt.Println("State:",p.address.state)
+}
+==ex8-promoted.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+type Address struct {  
+    city, state string
+}
+type Person struct {  
+    name string
+    age int
+    Address
+}
+
+func main() {  
+    var p Person
+    p.name = "aa"
+    p.age = 20
+    p.Address = Address{
+        city:  "Chicago",
+        state: "Illinois",
+    }
+    fmt.Println("Name:", p.name)
+    fmt.Println("Age:", p.age)
+    fmt.Println("City:", p.city) //city is promoted field
+    fmt.Println("State:", p.state) //state is promoted field
+}
+
+==ex9-structs-equality.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+type name struct {  
+    firstName string
+    lastName string
+}
+
+
+func main() {  
+    name1 := name{"aa", "xx"}
+    name2 := name{"aa", "xx"}
+    if name1 == name2 {
+        fmt.Println("name1 and name2 are equal")
+    } else {
+        fmt.Println("name1 and name2 are not equal")
+    }
+
+    name3 := name{firstName:"bb", lastName:"yy"}
+    name4 := name{}
+    name4.firstName = "bb"
+	//name4.lastName = "yy"
+    if name3 == name4 {
+        fmt.Println("name3 and name4 are equal")
+    } else {
+        fmt.Println("name3 and name4 are not equal")
+    }
+}

@@ -1,0 +1,220 @@
+==ex1-typed.go========================
+package main
+
+import "fmt"
+
+func main() {
+
+	var a = "aaa" //string
+
+	type myString string
+	var b myString = "bbb" //myString
+
+	//b = a		//not allowed because type does not matched (string, myStrin)
+
+	//Re-assigning : allowed
+    //a = "a1"
+	//b = "b1"
+
+	fmt.Printf("%v %T ", a, a)	//aaa string
+
+	fmt.Printf("%v %T ", b, b)	//bbb main.myString
+	
+	c := 'u' //char 
+	fmt.Printf("%v %T ", c, c)	//117 int32
+}
+
+==ex2-str-to-byte.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func printBytes(s string) {  
+    for i:= 0; i < len(s); i++ {
+        fmt.Printf("%x ", s[i])
+    }
+}
+
+func main() {  
+    name := "Hello World"
+    printBytes(name)
+}
+==ex3-str-to-byte-char.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func printBytes(s string) {  
+    for i:= 0; i < len(s); i++ {
+        fmt.Printf("%x ", s[i])
+    }
+}
+
+
+func printChars(s string) {  
+    for i:= 0; i < len(s); i++ {
+        fmt.Printf("%c ",s[i])
+    }
+}
+
+func main() {  
+    name := "Hello World"
+    printBytes(name)
+    fmt.Printf("\n")
+    printChars(name)
+}
+==ex4-byte-rune.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func printBytes(s string) {  
+    for i:= 0; i < len(s); i++ {
+        fmt.Printf("%x ", s[i])
+    }
+}
+
+func printChars(s string) {  
+    for i:= 0; i < len(s); i++ {
+        fmt.Printf("%c ",s[i])
+    }
+}
+
+func printCharsByte(s string) { 
+    bytes := []byte(s)
+    for i:= 0; i < len(bytes); i++ {
+        fmt.Printf("%c ",bytes[i])
+    }
+}
+
+func printCharsRune(s string) {  
+    runes := []rune(s)
+    for i:= 0; i < len(runes); i++ {
+        fmt.Printf("%c ",runes[i])
+    }
+}
+
+func main() {  	
+    name := "Señor"
+	
+    printBytes(name) ; 		fmt.Println()			
+	printChars(name) ;		fmt.Println()	
+    printCharsByte(name) ;	fmt.Println()	
+    printCharsRune(name)		
+}
+
+
+
+
+
+
+
+==ex5-range.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func printCharsAndBytes(s string) {  
+    for index, rune := range s {
+        fmt.Printf("Index %d, Char %c, Hex %x \n", index, rune, rune )
+    }
+}
+
+func main() {  
+    name := "Señor"
+    printCharsAndBytes(name)
+}
+==ex6-byte-rune.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func main() {
+
+byte_hex()
+byte_dec()
+runes()
+
+}
+
+func byte_hex() {  
+    byteSlice := []byte{0x43, 0x61, 0x66, 0xC3, 0xA9}
+    str := string(byteSlice)
+    fmt.Println(str)	//Café
+}
+
+func byte_dec() {  
+    byteSlice := []byte{67, 97, 102, 195, 169}//decimal equivalent of {'\x43', '\x61', '\x66', '\xC3', '\xA9'}
+    str := string(byteSlice)
+    fmt.Println(str)	//Café
+}
+
+func runes() {  //hexadecimal
+    runeSlice := []rune{0x0053, 0x0065, 0x00f1, 0x006f, 0x0072}
+    str := string(runeSlice)
+    fmt.Println(str)	//Señor
+}
+==ex7-string-length.go========================
+package main
+
+import (
+	"fmt"
+	"unicode/utf8"
+)
+
+func length(s string) {
+	fmt.Println(utf8.RuneCountInString(s))
+}
+func main() {
+
+	word1 := "Señor"
+	length(word1)  				//5
+	fmt.Println(len(word1)) 	//6
+
+	fmt.Println("========")
+
+	word2 := "Pets"
+	length(word2)				//4
+	fmt.Println(len(word2))		//4
+}
+
+==ex8-immutable-mutate.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+/*
+func mutate(s string)string {  
+    s[0] = 'a'//any valid unicode character within single quote is a rune 
+    return s
+}
+
+func main() {  
+    h := "hello"
+    fmt.Println(mutate(h))
+}
+*/
+
+
+func mutate(s []rune) string {  
+    s[0] = 'a' 
+    return string(s)
+}
+func main() {  
+    h := "hello"
+    fmt.Println(mutate([]rune(h)))
+}
+
+

@@ -1,0 +1,341 @@
+==main.go========================
+package main
+
+import "golangbot2/7-methods/mymethod"
+ 
+func main() {  
+
+mymethod.Method_basic()
+mymethod.Method_overloading()
+mymethod.Method_anonymous_fields()
+mymethod.Method_and_type();
+
+mymethod.Method_pointer_receiver()
+mymethod.Method_pointer_receiver_ex1()
+mymethod.Method_pointer_receiver_ex2()
+
+}
+==method-basic.go========================
+package mymethod
+
+import (  
+    "fmt"
+)
+
+type Employee struct {  
+    name     string
+    salary   int
+    currency string
+}
+
+//method
+func (e Employee) displaySalary() {  
+    fmt.Printf("Salary of %s is %s%d", e.name, e.currency, e.salary)
+}
+
+//function
+func displaySalary1(e Employee) {  
+    fmt.Printf("Salary of %s is %s%d", e.name, e.currency, e.salary)
+}
+
+func Method_basic() { 
+    fmt.Println("\n+++  method_basic  +++++")	  
+    emp1 := Employee {
+        name:     "Ram Singh",
+        salary:   5000,
+        currency: "$",
+    }
+    emp1.displaySalary() //method calling
+	fmt.Println()
+    displaySalary1(emp1) //function calling
+}
+
+/*
+Go is not a pure object oriented programming language and it does not support classes. 
+Hence methods on types is a way to achieve behaviour similar to classes.
+
+Methods with same name can be defined on different types whereas functions with the same names are not allowed. 
+
+*/
+
+==method_and_type.go========================
+/*
+To define a method on a type, the definition of the receiver type of the method and the definition of the method should be in the same package. 
+So far, all the structs and the methods on structs we defined where all located in the same main package and hence they worked.
+
+This method is not linked with structure
+cannot define new methods on non-local type int
+It cannot be compiled 
+
+package main
+
+
+func (a int) add(b int) {  
+}
+
+func method_and_type() {
+
+}
+*/
+///////////////////////////////////////////////
+
+//The way to get this working is to create a type alias for the built-in type int and then create a method with this type alias as the receiver.
+
+
+package mymethod
+
+import "fmt"
+
+type myInt int
+
+func (a myInt) add(b myInt) myInt {  
+    return a + b
+}
+
+func Method_and_type() {  
+
+	fmt.Println("\n+++  method_and_type  +++++")	
+	
+    num1 := myInt(5)
+    num2 := myInt(10)
+    sum := num1.add(num2)
+    fmt.Println("Sum is", sum)
+}
+
+==method_anonymous_fields.go========================
+package mymethod
+
+import (  
+    "fmt"
+)
+
+type address struct {  
+    city  string
+    state string
+}
+
+func (a address) fullAddress() {  
+    fmt.Printf("Full address: %s, %s", a.city, a.state)
+}
+
+type person struct {  
+    firstName string
+    lastName  string
+    address
+}
+
+func Method_anonymous_fields() {  
+	fmt.Println("\n+++  method_anonymous_fields  +++++")	 
+    p := person{
+        firstName: "Ram",
+        lastName:  "Singh",
+        address: address {
+            city:  "New Delhi",
+            state: "Delhi",
+        },
+    }
+
+    p.fullAddress() //accessing fullAddress method of address struct
+	fmt.Println()
+    fmt.Println(p.firstName, p.address.city, p.city)
+
+}
+==method_overloading.go========================
+package mymethod
+
+import (  
+    "fmt"
+    "math"
+)
+
+type Rectangle struct {  
+    length int
+    width  int
+}
+
+type Circle struct {  
+    radius float64
+}
+
+func (r Rectangle) Area() int {  
+    return r.length * r.width
+}
+
+func (c Circle) Area() float64 {  
+    return math.Pi * c.radius * c.radius
+}
+
+func Method_overloading() { 
+	fmt.Println("\n+++  method_overloading  +++++")	   
+    r := Rectangle{
+        length: 10,
+        width:  5,
+    }
+    fmt.Printf("Area of rectangle %d\n", r.Area())
+    c := Circle{
+        radius: 12,
+    }
+    fmt.Printf("Area of circle %f", c.Area())
+}
+
+==method_pointer_sender_receiver.go========================
+/*Value receivers in methods vs value arguments in functions
+
+func:: sender:value - receiver:value
+func:: sender:ref - receiver:pointer
+
+func:: sender:value - receiver:pointer  X - not allowed
+func:: sender:ref - receiver:value      X - not allowed
+
+method:: sender:value/ref - receiver:value
+method:: sender:value/ref - receiver:pointer
+
+*/
+
+package mymethod
+import "fmt"
+
+type rectangle struct {  
+    length int
+    width  int
+}
+
+//Receiver Function===========================
+
+func area(r rectangle) {  
+    fmt.Printf("Area - Function (sender:value, receive: value): %d\n", (r.length * r.width))
+}
+
+func area_func_pointer(r *rectangle) {  
+  fmt.Printf("Area - Function (sender:ref, receive: pointer): %d\n", (r.length * r.width))
+}
+
+//Receiver Method==========================
+func (r rectangle) area() {  
+    fmt.Printf("Area + Method (sender:value/ref, receive: value): %d\n", (r.length * r.width))
+}
+
+func (r *rectangle) area_method_pointer() {  
+    fmt.Printf("Area + Method (sender:value/ref, receive: pointer): %d\n", (r.length * r.width))
+}
+
+func Method_pointer_receiver() {  
+	fmt.Println("\n+++  method_pointer_receiver  +++++")
+    r := rectangle{
+        length: 10,
+        width:  5,
+    }
+    p := &r  
+
+    //func:: sender:value - receiver:value====================================================
+    area(r)      //area(*p), function call by value  
+    //area(&r)   //area(p), function call by reference - not allowed
+
+	//func:: sender:ref - receiver:pointer
+    //area_func_pointer(r) //function call by value - not allowed
+    area_func_pointer(p)   //function call by reference  
+ 
+    fmt.Println("+++  ---------  +++++")
+   
+    //method:: sender:value/ref - receiver:value===================================================
+    r.area()     //method call by value 
+    (*p).area()
+
+    p.area()    //method call by reference 
+    (&r).area()
+
+    fmt.Println("+++  ---------  +++++")
+     
+   //method:: sender:value/ref - receiver:pointer
+    r.area_method_pointer()     //method call by value 
+    (*p).area_method_pointer()
+
+    p.area_method_pointer()    //method call by reference 
+    (&r).area_method_pointer()
+    
+}
+
+==method_pointer_sender_receiver_ex1.go========================
+/*Pointer receivers vs value receivers*/
+package mymethod
+
+import (  
+    "fmt"
+)
+
+type rectangle1 struct {  
+    length int
+    width  int
+}
+
+func perimeter(r *rectangle1) {   //function - pointer receiving (val not allowed)
+    fmt.Println("perimeter function output:", 2*(r.length+r.width))
+
+}
+
+func (r *rectangle1) perimeter() {  //method - pointer receiving (val can be allowed)
+    fmt.Println("perimeter method output:", 2*(r.length+r.width))
+}
+
+func Method_pointer_receiver_ex1() { 
+ 
+	fmt.Println("\n+++  method_pointer_receiver_ex1  +++++")	 
+	//r-value, p-pointer
+    r := rectangle1{
+        length: 10,
+        width:  5,
+    }
+    p := &r 
+	
+    perimeter(p)		//function - ref	- allowed
+    //perimeter(r)		//function - val	- not allowed 
+	
+    p.perimeter()		//method - ref		- allowed
+    r.perimeter()		//method - val		- allowed
+
+}
+==method_pointer_sender_receiver_ex2.go========================
+/*Pointer receivers vs value receivers*/
+package mymethod
+
+import (  
+    "fmt"
+)
+
+type Employee1 struct {  
+    name string
+    age  int
+}
+
+//value receiver  - temp changes
+func (e Employee1) changeName(newName string) {  
+    e.name = newName
+	fmt.Println(e)
+}
+
+//pointer receiver - fixed changes
+func (e *Employee1) changeAge(newAge int) {  
+    e.age = newAge
+	fmt.Println(e)
+}
+
+func Method_pointer_receiver_ex2() {  
+	e := Employee1{
+		name: "Ram",
+		age:  50,
+	}
+	fmt.Println("\n+++  method_pointer_receiver_ex2  +++++")	 
+
+	fmt.Printf(e.name) //Ram
+	e.changeName("Shyam") //no impact 
+	fmt.Printf(e.name) //Ram
+
+	fmt.Printf("\nage: %d", e.age) //50 - before change
+	(&e).changeAge(30) //method calling (by pointer)
+	//e.changeAge(30)      //method calling  
+	fmt.Printf("\nage: %d", e.age) //30 - after change
+	
+	//debug
+	fmt.Println(e)
+}
+

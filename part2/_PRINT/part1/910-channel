@@ -1,0 +1,584 @@
+==1 -- basic========================
+==ex-1-channel-declaration.go========================
+package main
+
+import "fmt"
+
+func main() {  
+    var a chan int
+    if a == nil {
+        fmt.Println("channel a is nil, going to define it")
+        a = make(chan int)
+        fmt.Printf("Type of a is %T", a)
+    }
+}
+==ex-2.go========================
+/*
+
+data := <- a // read from channel a  
+a <- data // write to channel a  
+
+
+Sends and receives are blocking by default
+Sends and receives to a channel are blocking by default. What does this mean? When a data is sent to a channel, the control is blocked in the send statement until some other Goroutine reads from that channel. Similarly when data is read from a channel, the read is blocked until some Goroutine writes data to that channel.
+
+This property of channels is what helps Goroutines communicate effectively without the use of explicit locks or conditional variables that are quite common in other programming languages.
+
+*/
+
+
+//goroutine with sleep
+
+/*
+package main
+
+import (  
+    "fmt"
+    "time"
+)
+
+func hello() {  
+    fmt.Println("Hello world goroutine")
+}
+func main() {  
+    go hello()
+    time.Sleep(1 * time.Second)
+    fmt.Println("main function")
+}
+
+*/
+
+//goroutine with channel
+package main
+
+import (  
+    "fmt"
+)
+
+func hello(done chan bool) {  
+    fmt.Println("Hello world goroutine")
+    done <- true
+}
+func main() {  
+    done := make(chan bool)
+    go hello(done)
+    <-done
+    fmt.Println("main function")
+}
+
+
+==ex-21.go========================
+package main
+
+import (  
+    "fmt"
+    "time"
+)
+
+func hello(done chan bool) {  
+    fmt.Println("hello go routine is going to sleep")
+    time.Sleep(4 * time.Second)
+    fmt.Println("hello go routine awake and going to write to done")
+    done <- true
+}
+func main() {  
+    done := make(chan bool)
+    fmt.Println("Main going to call hello go goroutine")
+    go hello(done)
+    <-done
+    fmt.Println("Main received data")
+}
+==ex-22.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func calcSquares(number int, squareop chan int) {  
+    sum := 0
+    for number != 0 {
+        digit := number % 10
+        sum += digit * digit
+        number /= 10
+    }
+    squareop <- sum
+}
+
+func calcCubes(number int, cubeop chan int) {  
+    sum := 0 
+    for number != 0 {
+        digit := number % 10
+        sum += digit * digit * digit
+        number /= 10
+    }
+    cubeop <- sum
+} 
+
+func main() {  
+    number := 589
+    sqrch := make(chan int)
+    cubech := make(chan int)
+    go calcSquares(number, sqrch)
+    go calcCubes(number, cubech)
+    squares, cubes := <-sqrch, <-cubech
+    fmt.Println("Final output", squares + cubes)
+}
+
+==ex-3-deadlock.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+
+func main() {  
+    ch := make(chan int, 1)
+    ch <- 5
+	
+	 fmt.Println(<- ch)
+}
+==ex4-unidirectional.go========================
+/*
+data := <- a // read from channel a  
+a <- data // write to channel a  
+
+All the channels we discussed so far are bidirectional channels, that is data can be both sent and received on them. It is also possible to create unidirectional channels, that is channels that only send or receive data.
+*/
+
+package main
+
+import "fmt"
+
+func sendData(sendch chan<- int) {  
+    sendch <- 10
+}
+
+func main() {  
+    chnl := make(chan int)
+    go sendData(chnl)
+    fmt.Println(<-chnl)
+}
+==ex5-for.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func producer(chnl chan int) {  
+    for i := 0; i < 10; i++ {
+        chnl <- i
+    }
+    close(chnl)
+}
+func main() {  
+    ch := make(chan int)
+    go producer(ch)
+    for {
+        v, ok := <-ch
+        if ok == false {
+            break
+        }
+        fmt.Println("Received ", v, ok)
+    }
+}
+==ex6-range.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func producer(chnl chan int) {  
+    for i := 0; i < 10; i++ {
+        chnl <- i
+    }
+    close(chnl)
+}
+func main() {  
+    ch := make(chan int)
+    go producer(ch)
+    for v := range ch {
+        fmt.Println("Received ",v)
+    }
+}
+==ex7.go========================
+package main
+
+import (
+	"fmt"
+)
+
+func digits(number int, dchnl chan int) {
+	for number != 0 {
+		digit := number % 10
+		dchnl <- digit
+		number /= 10
+	}
+	close(dchnl)
+}
+func calcSquares(number int, squareop chan int) {
+	sum := 0
+	dch := make(chan int)
+	go digits(number, dch)
+	for digit := range dch {
+		sum += digit * digit
+	}
+	squareop <- sum
+}
+
+func calcCubes(number int, cubeop chan int) {
+	sum := 0
+	dch := make(chan int)
+	go digits(number, dch)
+	for digit := range dch {
+		sum += digit * digit * digit
+	}
+	cubeop <- sum
+}
+
+func main() {
+	number := 123 // 1-4-9 + 1-8-27
+	sqrch := make(chan int)
+	cubech := make(chan int)
+	go calcSquares(number, sqrch)
+	go calcCubes(number, cubech)
+	squares, cubes := <-sqrch, <-cubech
+	fmt.Println("Final output", squares+cubes)
+}
+
+
+==2 -- buffered========================
+==ex1.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+
+func main() {  
+    ch := make(chan string, 2)
+    ch <- "naveen"
+    ch <- "paul"
+    fmt.Println(<- ch)
+    fmt.Println(<- ch)
+}
+==ex2.go========================
+package main
+
+import (  
+    "fmt"
+    "time"
+)
+
+func write(ch chan int) {  
+    for i := 0; i < 5; i++ {
+        ch <- i
+        fmt.Println("successfully wrote", i, "to ch")
+    }
+    close(ch)
+}
+func main() {  
+    ch := make(chan int, 2)
+    go write(ch)
+    time.Sleep(2 * time.Second)
+    for v := range ch {
+        fmt.Println("read value", v,"from ch")
+        time.Sleep(2 * time.Second)
+
+    }
+}
+==ex3-deadlock.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func main() {  
+    ch := make(chan string, 2)
+    ch <- "naveen"
+    ch <- "paul"
+    ch <- "steve"
+    fmt.Println(<-ch)
+    fmt.Println(<-ch)
+}
+==ex4-capacity-length.go========================
+//The capacity of a buffered channel is the number of values that the channel can hold. This is the value we specify when creating the buffered channel using the make function.
+//The length of the buffered channel is the number of elements currently queued in it.
+
+
+package main
+
+import (  
+    "fmt"
+)
+
+func main() {  
+    ch := make(chan string, 3)
+    ch <- "manoj"
+    ch <- "kumar"
+    fmt.Println("capacity is", cap(ch))
+    fmt.Println("length is", len(ch))
+    fmt.Println("read value", <-ch)
+    fmt.Println("new length is", len(ch))
+}
+==ex5-wait-group.go========================
+/*
+WaitGroup
+The next section in this tutorial is about Worker Pools. To understand worker pools, we need to first know about WaitGroup as it will be used in the implementation of Worker pool.
+
+A WaitGroup is used to wait for a collection of Goroutines to finish executing. The control is blocked until all Goroutines finish executing. Lets say we have 3 concurrently executing Goroutines spawned from the main Goroutine. The main Goroutines needs to wait for the 3 other Goroutines to finish before terminating. This can be accomplished using WaitGroup.
+
+*/
+
+package main
+
+import (  
+    "fmt"
+    "sync"
+    "time"
+)
+
+func process(i int, wg *sync.WaitGroup) {  
+    fmt.Println("started Goroutine ", i)
+    time.Sleep(2 * time.Second)
+    fmt.Printf("Goroutine %d ended\n", i)
+    wg.Done()
+}
+
+func main() {  
+    no := 3
+    var wg sync.WaitGroup
+    for i := 0; i < no; i++ {
+        wg.Add(1)
+        go process(i, &wg)
+    }
+    wg.Wait()
+    fmt.Println("All go routines finished executing")
+}
+==ex6-worker-pool.go========================
+package main
+
+import (  
+    "fmt"
+    "math/rand"
+    "sync"
+    "time"
+)
+
+type Job struct {  
+    id       int
+    randomno int
+}
+type Result struct {  
+    job         Job
+    sumofdigits int
+}
+
+var jobs = make(chan Job, 10)  
+var results = make(chan Result, 10)
+
+func digits(number int) int {  
+    sum := 0
+    no := number
+    for no != 0 {
+        digit := no % 10
+        sum += digit
+        no /= 10
+    }
+    time.Sleep(2 * time.Second)
+    return sum
+}
+func worker(wg *sync.WaitGroup) {  
+    for job := range jobs {
+        output := Result{job, digits(job.randomno)}
+        results <- output
+    }
+    wg.Done()
+}
+func createWorkerPool(noOfWorkers int) {  
+    var wg sync.WaitGroup
+    for i := 0; i < noOfWorkers; i++ {
+        wg.Add(1)
+        go worker(&wg)
+    }
+    wg.Wait()
+    close(results)
+}
+func allocate(noOfJobs int) {  
+    for i := 0; i < noOfJobs; i++ {
+        randomno := rand.Intn(999)
+        job := Job{i, randomno}
+        jobs <- job
+    }
+    close(jobs)
+}
+func result(done chan bool) {  
+    for result := range results {
+        fmt.Printf("Job id %d, input random no %d , sum of digits %d\n", result.job.id, result.job.randomno, result.sumofdigits)
+    }
+    done <- true
+}
+func main() {  
+    startTime := time.Now()
+    noOfJobs := 100
+    go allocate(noOfJobs)
+    done := make(chan bool)
+    go result(done)
+    noOfWorkers := 10
+    createWorkerPool(noOfWorkers)
+    <-done
+    endTime := time.Now()
+    diff := endTime.Sub(startTime)
+    fmt.Println("total time taken ", diff.Seconds(), "seconds")
+}
+==readme.txt========================
+What are buffered channels?
+All the channels we discussed in the previous tutorial were basically unbuffered. As we discussed in the channels tutorial in detail, sends and receives to an unbuffered channel are blocking.
+
+It is possible to create a channel with a buffer. Sends to a buffered channel are blocked only when the buffer is full. Similarly receives from a buffered channel are blocked only when the buffer is empty.
+
+Buffered channels can be created by passing an additional capacity parameter to the make function which specifies the size of the buffer.
+
+ch := make(chan type, capacity)  
+capacity in the above syntax should be greater than 0 for a channel to have a buffer. The capacity for an unbuffered channel is 0 by default and hence we omitted the capacity parameter while creating channels in the previous tutorial.
+
+Lets write some code and create a buffered channel.
+
+==3 -- select========================
+==ex1.go========================
+package main
+
+import (  
+    "fmt"
+    "time"
+)
+
+func server1(ch chan string) {  
+    time.Sleep(6 * time.Second)
+    ch <- "from server1"
+}
+func server2(ch chan string) {  
+    time.Sleep(3 * time.Second)
+    ch <- "from server2"
+
+}
+func main() {  
+    output1 := make(chan string)
+    output2 := make(chan string)
+    go server1(output1)
+    go server2(output2)
+    select {
+    case s1 := <-output1:
+        fmt.Println(s1)
+    case s2 := <-output2:
+        fmt.Println(s2)
+    }
+}
+==ex2.go========================
+package main
+
+import (  
+    "fmt"
+    "time"
+)
+
+func process(ch chan string) {  
+    time.Sleep(10500 * time.Millisecond)
+    ch <- "process successful"
+}
+
+func main() {  
+    ch := make(chan string)
+    go process(ch)
+    for {
+        time.Sleep(1000 * time.Millisecond)
+        select {
+        case v := <-ch:
+            fmt.Println("received value: ", v)
+            return
+        default:
+            fmt.Println("no value received")
+        }
+    }
+
+}
+==ex3-deadlock.go========================
+package main
+
+func main() {  
+    ch := make(chan string)
+    select {
+    case <-ch:
+    }
+}
+==ex4-deadlock-handling.go========================
+package main
+
+import "fmt"
+
+func main() {  
+    ch := make(chan string)
+    select {
+    case <-ch:
+    default:
+        fmt.Println("default case executed")
+    }
+}
+==ex5.go========================
+package main
+
+import "fmt"
+
+func main() {  
+    var ch chan string
+    select {
+    case v := <-ch:
+        fmt.Println("received value", v)
+    default:
+        fmt.Println("default case executed")
+
+    }
+}
+==ex6-random.go========================
+package main
+
+import (  
+    "fmt"
+    "time"
+)
+
+func server1(ch chan string) {  
+    ch <- "from server1"
+}
+func server2(ch chan string) {  
+    ch <- "from server2"
+
+}
+func main() {  
+    output1 := make(chan string)
+    output2 := make(chan string)
+    go server1(output1)
+    go server2(output2)
+    time.Sleep(1 * time.Second)
+    select {
+    case s1 := <-output1:
+        fmt.Println(s1)
+    case s2 := <-output2:
+        fmt.Println(s2)
+    }
+}
+==ex7-select-empty-deadlock.go========================
+package main
+
+func main() {  
+    select {}
+}
+==readme.txt========================
+What is select?
+The select statement is used to choose from multiple send/receive channel operations. The select statement blocks until one of the send/receive operation is ready. If multiple operations are ready, one of them is chosen at random. The syntax is similar to switch except that each of the case statement will be a channel operation. Lets dive right into some code for better understanding.
+

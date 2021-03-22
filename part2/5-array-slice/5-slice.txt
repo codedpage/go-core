@@ -1,0 +1,33 @@
+[]T
+or 
+[]T{}
+or 
+[]T{value1, value2, value3, ...value n}
+
+Here, T is the type of the elements. For example:
+
+var my_slice[]int
+
+------
+A slice contains three components:
+
+    Pointer: The pointer is used to points to the first element of the array that is accessible through the slice. Here, it is not necessary that the pointed element is the first element of the array.
+    Length: The length is the total number of elements present in the array.
+    Capacity: The capacity represents the maximum size upto which it can expand.
+
+
+
+How to create and initialize a Slice?
+
+Using slice literal
+var my_slice_1 = []string{"Geeks", "for", "Geeks"}
+
+Using an Array - slice is the reference of the array
+array_name[low:high]
+
+Using already Existing Slice: 
+slice_name[low:high]
+
+
+Using make() function
+func make([]T, len, cap) []T

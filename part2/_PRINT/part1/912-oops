@@ -1,0 +1,318 @@
+==employee.go========================
+package employee
+
+import (  
+    "fmt"
+)
+
+type Employee struct {  
+    FirstName   string
+    LastName    string
+    TotalLeaves int
+    LeavesTaken int
+}
+
+func (e Employee) LeavesRemaining() {  
+    fmt.Printf("%s %s has %d leaves remaining", e.FirstName, e.LastName, (e.TotalLeaves - e.LeavesTaken))
+}
+
+/////////////////
+
+type employee struct {  
+    firstName   string
+    lastName    string
+    totalLeaves int
+    leavesTaken int
+}
+
+func New(firstName string, lastName string, totalLeave int, leavesTaken int) employee {  
+    e := employee {firstName, lastName, totalLeave, leavesTaken}
+    return e
+}
+
+func (e employee) LeavesRemaining() {  
+    fmt.Printf("%s %s has %d leaves remaining", e.firstName, e.lastName, (e.totalLeaves - e.leavesTaken))
+}
+==ex1-struct-class.go========================
+package main
+
+import (
+	"fmt"
+	"golanbot2/oops/employee"
+)
+
+func main() {
+	ex1()
+	fmt.Println()
+	ex2()
+}
+
+func ex1() {
+	e := employee.Employee{
+		FirstName:   "Manoj",
+		LastName:    "kumar",
+		TotalLeaves: 30,
+		LeavesTaken: 20,
+	}
+	e.LeavesRemaining()
+}
+
+func ex2() {
+	//e := employee.Employee{"Manoj", "kumar", 30, 20}
+
+	e := employee.New("Manoj", "kumar", 30, 20)
+	e.LeavesRemaining()
+}
+
+==ex2-composition-inheritance-1.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+type author struct {  
+    firstName string
+    lastName  string
+    bio       string
+}
+
+func (a author) fullName() string {  
+    return fmt.Sprintf("%s %s", a.firstName, a.lastName)
+}
+
+type post struct {  
+    title   string
+    content string
+    author
+}
+
+func (p post) details() {  
+    fmt.Println("Title: ", p.title)
+    fmt.Println("Content: ", p.content)
+    fmt.Println("Author: ", p.fullName())
+    fmt.Println("Bio: ", p.bio)
+}
+
+//----------------------
+
+func main() {  
+    author1 := author{
+        "Manoj",
+        "Kumar",
+        "Golang SSE",
+    }
+    post1 := post{
+        "Inheritance in Go",
+        "Go supports composition instead of inheritance",
+        author1,
+    }
+    post1.details()
+}
+==ex3-composition-inheritance-2.go========================
+package main
+
+import (
+	"fmt"
+)
+
+type author struct {
+	firstName string
+	lastName  string
+	bio       string
+}
+
+func (a author) fullName() string {
+	return fmt.Sprintf("%s %s", a.firstName, a.lastName)
+}
+
+type post struct {
+	title   string
+	content string
+	author
+}
+
+func (p post) details() {
+	fmt.Println("Title: ", p.title)
+	fmt.Println("Content: ", p.content)
+	fmt.Println("Author: ", p.fullName())
+	fmt.Println("Bio: ", p.bio)
+}
+
+type website struct {
+	posts []post
+}
+
+func (w website) contents() {
+	fmt.Println("Contents of Website\n")
+	for _, v := range w.posts {
+		v.details()
+		fmt.Println()
+	}
+}
+
+//-----------------------------------------------------
+
+func main() {
+	author1 := author{
+		"Manoj",
+		"kumar",
+		"SSE",
+	}
+	post1 := post{
+		"aa",
+		"aaa",
+		author1,
+	}
+	post2 := post{
+		"bb",
+		"bbb",
+		author1,
+	}
+	post3 := post{
+		"cc",
+		"ccc",
+		author1,
+	}
+	w := website{
+		posts: []post{post1, post2, post3},
+	}
+	w.contents()
+}
+
+==ex4-polymorphism.go========================
+package main
+
+import (
+	"fmt"
+)
+
+type Income interface {
+	calculate() int
+	source() string
+}
+
+type FixedBilling struct {
+	projectName  string
+	biddedAmount int
+}
+
+type TimeAndMaterial struct {
+	projectName string
+	noOfHours   int
+	hourlyRate  int
+}
+
+//--------------
+
+func (fb FixedBilling) calculate() int {
+	return fb.biddedAmount
+}
+
+func (fb FixedBilling) source() string {
+	return fb.projectName
+}
+
+func (tm TimeAndMaterial) calculate() int {
+	return tm.noOfHours * tm.hourlyRate
+}
+
+func (tm TimeAndMaterial) source() string {
+	return tm.projectName
+}
+
+func calculateNetIncome(ic []Income) {
+	var netincome int = 0
+	for _, income := range ic {
+		fmt.Printf("Income From %s = $%d\n", income.source(), income.calculate())
+		netincome += income.calculate()
+	}
+	fmt.Printf("Net income of organisation = $%d", netincome)
+}
+
+//----------------------
+
+func main() {
+	project1 := FixedBilling{projectName: "Project 1", biddedAmount: 5000}
+	project2 := FixedBilling{projectName: "Project 2", biddedAmount: 10000}
+	project3 := TimeAndMaterial{projectName: "Project 3", noOfHours: 160, hourlyRate: 25}
+	incomeStreams := []Income{project1, project2, project3}
+	calculateNetIncome(incomeStreams)
+}
+
+==ex5-polymorphism.go========================
+package main
+
+import (
+	"fmt"
+)
+
+type Income interface {
+	calculate() int
+	source() string
+}
+
+type FixedBilling struct {
+	projectName  string
+	biddedAmount int
+}
+
+type TimeAndMaterial struct {
+	projectName string
+	noOfHours   int
+	hourlyRate  int
+}
+
+type Advertisement struct {
+	adName     string
+	CPC        int
+	noOfClicks int
+}
+
+func (fb FixedBilling) calculate() int {
+	return fb.biddedAmount
+}
+
+func (fb FixedBilling) source() string {
+	return fb.projectName
+}
+
+func (tm TimeAndMaterial) calculate() int {
+	return tm.noOfHours * tm.hourlyRate
+}
+
+func (tm TimeAndMaterial) source() string {
+	return tm.projectName
+}
+
+func (a Advertisement) calculate() int {
+	return a.CPC * a.noOfClicks
+}
+
+func (a Advertisement) source() string {
+	return a.adName
+}
+func calculateNetIncome(ic []Income) {
+	var netincome int = 0
+	for _, income := range ic {
+		fmt.Printf("Income From %s = $%d\n", income.source(), income.calculate())
+		netincome += income.calculate()
+	}
+	fmt.Printf("Net income of organisation = $%d", netincome)
+}
+
+func main() {
+	project1 := FixedBilling{projectName: "Project 1", biddedAmount: 5000}
+	project2 := FixedBilling{projectName: "Project 2", biddedAmount: 10000}
+	project3 := TimeAndMaterial{projectName: "Project 3", noOfHours: 160, hourlyRate: 25}
+	bannerAd := Advertisement{adName: "Banner Ad", CPC: 2, noOfClicks: 500}
+	popupAd := Advertisement{adName: "Popup Ad", CPC: 5, noOfClicks: 750}
+	incomeStreams := []Income{project1, project2, project3, bannerAd, popupAd}
+	calculateNetIncome(incomeStreams)
+}
+
+==go.mod========================
+module golanbot2/oops
+
+go 1.13
+

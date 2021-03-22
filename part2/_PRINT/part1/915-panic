@@ -1,0 +1,193 @@
+==ex1-with-defer.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func fullName(firstName *string, lastName *string) {  
+    defer fmt.Println("deferred call in fullName")
+    if firstName == nil {
+        panic("runtime error: first name cannot be nil")
+    }
+    if lastName == nil {
+        panic("runtime error: last name cannot be nil")
+    }
+    fmt.Printf("%s %s\n", *firstName, *lastName)
+    fmt.Println("returned normally from fullName")
+}
+
+func main() {  
+    defer fmt.Println("deferred call in main")
+    firstName := "Elon"
+    fullName(&firstName, nil)
+    fmt.Println("returned normally from main")
+}
+==ex1.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func fullName(firstName *string, lastName *string) {  
+    if firstName == nil {
+        panic("runtime error: first name cannot be nil")
+    }
+    if lastName == nil {
+        panic("runtime error: last name cannot be nil")
+    }
+    fmt.Printf("%s %s\n", *firstName, *lastName)
+    fmt.Println("returned normally from fullName")
+}
+
+func main() {  
+    firstName := "Elon"
+    fullName(&firstName, nil)
+    fmt.Println("returned normally from main")
+}
+==ex2-recover.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func recoverName() {  
+    if r := recover(); r!= nil {
+        fmt.Println("recovered from ", r)
+    }
+}
+
+func fullName(firstName *string, lastName *string) {  
+    defer recoverName()
+    if firstName == nil {
+        panic("runtime error: first name cannot be nil")
+    }
+    if lastName == nil {
+        panic("runtime error: last name cannot be nil")
+    }
+    fmt.Printf("%s %s\n", *firstName, *lastName)
+    fmt.Println("returned normally from fullName")
+}
+
+func main() {  
+    defer fmt.Println("deferred call in main")
+    firstName := "Elon"
+    fullName(&firstName, nil)
+    fmt.Println("returned normally from main")
+}
+==ex3-panic-goroutine.go========================
+package main
+
+import (  
+    "fmt"
+    "time"
+)
+
+func recovery() {  
+    if r := recover(); r != nil {
+        fmt.Println("recovered:", r)
+    }
+}
+
+func a() {  
+    defer recovery()
+    fmt.Println("Inside A")	
+    go b() //goroutine - not recovered	
+    //b()  //function - recovered
+	//because the recovery function is present in a different gouroutine and the panic is happening in a different goroutine.
+    time.Sleep(1 * time.Second)
+}
+
+
+func b() {  
+    fmt.Println("Inside B")
+    panic("oh! B panicked")
+}
+
+func main() {  
+    a()
+    fmt.Println("normally returned from main")
+}
+==ex4-panic-runtime-recover.go========================
+package main
+
+import (  
+    "fmt"
+)
+
+func r() {  
+    if r := recover(); r != nil {
+        fmt.Println("Recovered", r)
+    }
+}
+
+func a() {  
+    defer r()
+    n := []int{5, 7, 4}
+    fmt.Println(n[3])
+    fmt.Println("normally returned from a")
+}
+
+func main() {  
+    a()
+    fmt.Println("normally returned from main")
+}
+==ex4-panic-runtime.go========================
+package main
+import "fmt"
+/*
+type Error interface {  
+    error
+    // RuntimeError is a no-op function but
+    // serves to distinguish types that are run time
+    // errors from ordinary errors: a type is a
+    // run time error if it has a RuntimeError method.
+    RuntimeError()
+}
+*/
+
+func a() {  
+    n := []int{5, 7, 4}
+    fmt.Println(n[3])
+    fmt.Println("normally returned from a")
+}
+func main() {  
+    a()
+    fmt.Println("normally returned from main")
+}
+==ex5.go========================
+/*
+Getting stack trace after recover
+If we recover a panic, we loose the stack trace about the panic. Even in the program above after recovery, we lost the stack trace.
+
+There is a way to print the stack trace using the PrintStack function of the Debug package
+
+*/
+
+package main
+
+import (  
+    "fmt"
+  //  "runtime/debug"
+)
+
+func r() {  
+    if r := recover(); r != nil {
+        fmt.Println("Recovered", r)
+     //   debug.PrintStack()
+    }
+}
+
+func a() {  
+    defer r()
+    n := []int{5, 7, 4}
+    fmt.Println(n[3])
+    fmt.Println("normally returned from a")
+}
+
+func main() {  
+    a()
+    fmt.Println("normally returned from main")
+}
