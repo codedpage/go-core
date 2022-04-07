@@ -31,3 +31,5 @@ func main() {
 	fmt.Println("Capacity :", cap(b), len(a)-n)
 
 }
+
+//https://go.dev/play/p/UsyPprdmfJg

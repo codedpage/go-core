@@ -39,3 +39,5 @@ func main() {
 	)
 	Println(i, j, k, m, n)
 }
+
+//https://go.dev/play/p/zDztGN49cCE

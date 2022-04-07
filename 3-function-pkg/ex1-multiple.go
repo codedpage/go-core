@@ -14,3 +14,5 @@ func main() {
      area, perimeter := rectProps(10.8, 5.6)
     fmt.Printf("Area %f Perimeter %f", area, perimeter) 
 }
+
+//https://go.dev/play/p/Wbpvrnsv74W

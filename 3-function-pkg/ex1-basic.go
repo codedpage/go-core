@@ -13,3 +13,5 @@ func main() {
     totalPrice := calculateBill(price, no)
     fmt.Println("Total price is", totalPrice)
 }
+
+//https://go.dev/play/p/Q1N8_zUEVGX

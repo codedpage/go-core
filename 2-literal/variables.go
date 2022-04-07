@@ -77,3 +77,5 @@ func var9() {
 	c := math.Min(a, b)
 	fmt.Println("minimum value is ", c)
 }
+
+//https://go.dev/play/p/mY7S7z9Yz_Y

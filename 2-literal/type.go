@@ -132,3 +132,5 @@ func type8_conversion() {
 	sum2 := float64(i) + j
 	fmt.Println(sum1, sum2)
 }
+
+//https://go.dev/play/p/sXeQoihiUuU

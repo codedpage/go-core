@@ -73,3 +73,5 @@ func const6_numeric_expressions() {
 	var a = 5.9 / 8
 	fmt.Printf("\na's type %T value %v", a, a)
 }
+
+//https://go.dev/play/p/ftVUxpqkZRT

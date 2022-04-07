@@ -1,15 +1,17 @@
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
-func main() {  
-    for i := 1; i <= 10; i++ {
-        if i > 5 {
-            break //loop is terminated if i > 5
-        }
-        fmt.Printf("%d ", i)
-    }
-    fmt.Printf("\nline after for loop")
+func main() {
+	for i := 1; i <= 10; i++ {
+		if i > 5 {
+			break //loop is terminated if i > 5
+		}
+		fmt.Printf("%d ", i)
+	}
+	fmt.Printf("\nline after for loop")
 }
+
+//https://go.dev/play/p/9_ltum4gJBR

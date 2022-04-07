@@ -1,13 +1,15 @@
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
-func main() {  
-    if num := 10; num % 2 == 0 { //checks if number is even
-        fmt.Println(num,"is even") 
-    }  else {
-        fmt.Println(num,"is odd")
-    }
+func main() {
+	if num := 10; num%2 == 0 { //checks if number is even
+		fmt.Println(num, "is even")
+	} else {
+		fmt.Println(num, "is odd")
+	}
 }
+
+//https://go.dev/play/p/ed3YK5cM3Hw

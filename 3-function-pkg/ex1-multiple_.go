@@ -13,3 +13,5 @@ func main() {
     area, _ := rectProps(10.8, 5.6) // perimeter is discarded
     fmt.Printf("Area %f ", area)
 }
+
+//https://go.dev/play/p/2OzHmeOYae9
