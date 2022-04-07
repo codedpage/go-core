@@ -1,7 +1,7 @@
 /*
 
-data := <- a // read from channel a  
-a <- data // write to channel a  
+data := <- a // read from channel a
+a <- data // write to channel a
 
 
 Sends and receives are blocking by default
@@ -11,21 +11,20 @@ This property of channels is what helps Goroutines communicate effectively witho
 
 */
 
-
 //goroutine with sleep
 
 /*
 package main
 
-import (  
+import (
     "fmt"
     "time"
 )
 
-func hello() {  
+func hello() {
     fmt.Println("Hello world goroutine")
 }
-func main() {  
+func main() {
     go hello()
     time.Sleep(1 * time.Second)
     fmt.Println("main function")
@@ -36,18 +35,19 @@ func main() {
 //goroutine with channel
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
-func hello(done chan bool) {  
-    fmt.Println("Hello world goroutine")
-    done <- true
+func hello(done chan bool) {
+	fmt.Println("Hello world goroutine")
+	done <- true
 }
-func main() {  
-    done := make(chan bool)
-    go hello(done)
-    <-done
-    fmt.Println("main function")
+func main() {
+	done := make(chan bool)
+	go hello(done)
+	<-done
+	fmt.Println("main function")
 }
 
+//https://go.dev/play/p/0Lj8j3HBa6w

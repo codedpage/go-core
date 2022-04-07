@@ -35,3 +35,5 @@ func main() {
 
 	fmt.Printf("\n%T %v", emp2, emp2)
 }
+
+//https://go.dev/play/p/AvdfAn71TPh

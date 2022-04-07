@@ -1,16 +1,18 @@
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
-func assert(i interface{}) {  
-    v, ok := i.(int)
-    fmt.Println(v, ok)
+func assert(i interface{}) {
+	v, ok := i.(int)
+	fmt.Println(v, ok)
 }
-func main() {  
-    var s interface{} = 56
-    assert(s)
-    var i interface{} = "Steven Paul"
-    assert(i)
+func main() {
+	var s interface{} = 56
+	assert(s)
+	var i interface{} = "Steven Paul"
+	assert(i)
 }
+
+//https://go.dev/play/p/G-8jk0RBZgP

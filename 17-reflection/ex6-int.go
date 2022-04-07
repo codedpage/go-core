@@ -1,18 +1,19 @@
 package main
 
-import (  
-    "fmt"
-    "reflect"
+import (
+	"fmt"
+	"reflect"
 )
 
-func main() {  
-    a := 10
-    x := reflect.ValueOf(a).Int()
-    fmt.Printf("type:%T value:%v\n", x, x)
-	
-	
-    b := "aa"
-    y := reflect.ValueOf(b).String()
-    fmt.Printf("type:%T value:%v\n", y, y)
+func main() {
+	a := 10
+	x := reflect.ValueOf(a).Int()
+	fmt.Printf("type:%T value:%v\n", x, x)
+
+	b := "aa"
+	y := reflect.ValueOf(b).String()
+	fmt.Printf("type:%T value:%v\n", y, y)
 
 }
+
+//https://go.dev/play/p/vWxuQ8KYFPe

@@ -21,6 +21,8 @@ func largest(nums []int) {
 }
 
 func main() {
-	nums := []int{20, 10, 50,30, 40}
+	nums := []int{20, 10, 50, 30, 40}
 	largest(nums)
 }
+
+//https://go.dev/play/p/gpBZPVV6PXp

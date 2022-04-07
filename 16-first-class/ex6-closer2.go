@@ -22,3 +22,5 @@ func main() {
 	fmt.Println(a("Gopher"))
 	fmt.Println(b("!"))
 }
+
+//https://go.dev/play/p/134NiQGPOcS

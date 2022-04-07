@@ -23,3 +23,5 @@ func main() {
 	fmt.Println(y, y64)
 
 }
+
+//https://go.dev/play/p/rz_-qyyO7a8

@@ -23,3 +23,5 @@ func main() {
 	fmt.Printf("Welcome ") //Welcome aa bb
 
 }
+
+//https://go.dev/play/p/ElJgos0HhlJ

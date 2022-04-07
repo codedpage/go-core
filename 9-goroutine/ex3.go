@@ -31,3 +31,5 @@ func main() {
 	fmt.Scanln()
 	fmt.Println("Finish - 6")
 }
+
+//https://go.dev/play/p/FtROCWmwxbp

@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+)
 
 func main() {
 
@@ -27,3 +29,5 @@ func main() {
 	}
 
 }
+
+//https://go.dev/play/p/j-Mw7BpPR2a

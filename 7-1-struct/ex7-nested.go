@@ -41,7 +41,7 @@ func main() {
 	p1 = Person{
 		name: "bb",
 		age:  30,
-		con: []Contact{Contact{"101"}, Contact{"102"}},
+		con:  []Contact{Contact{"101"}, Contact{"102"}},
 		address: Address{"nd",
 			"delhi"},
 	}
@@ -50,3 +50,5 @@ func main() {
 	fmt.Println(p.con[0].mobile)
 	fmt.Println(p.address.state)
 }
+
+//https://go.dev/play/p/c0W4C9HmQAg

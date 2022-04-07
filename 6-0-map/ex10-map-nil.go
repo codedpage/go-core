@@ -38,3 +38,5 @@ func map_not_nil() {
 	}
 
 }
+
+//https://go.dev/play/p/ZkieDV5sPNh

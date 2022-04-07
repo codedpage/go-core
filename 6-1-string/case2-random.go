@@ -34,3 +34,5 @@ func main() {
 	fmt.Println(id)
 	fmt.Println(string(id))
 }
+
+//https://go.dev/play/p/z5Hk3pj_bmP

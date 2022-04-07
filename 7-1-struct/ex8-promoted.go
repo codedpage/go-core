@@ -1,28 +1,30 @@
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
-type Address struct {  
-    city, state string
+type Address struct {
+	city, state string
 }
-type Person struct {  
-    name string
-    age int
-    Address
+type Person struct {
+	name string
+	age  int
+	Address
 }
 
-func main() {  
-    var p Person
-    p.name = "aa"
-    p.age = 20
-    p.Address = Address{
-        city:  "Chicago",
-        state: "Illinois",
-    }
-    fmt.Println("Name:", p.name)
-    fmt.Println("Age:", p.age)
-    fmt.Println("City:", p.city) //city is promoted field
-    fmt.Println("State:", p.state) //state is promoted field
+func main() {
+	var p Person
+	p.name = "aa"
+	p.age = 20
+	p.Address = Address{
+		city:  "Chicago",
+		state: "Illinois",
+	}
+	fmt.Println("Name:", p.name)
+	fmt.Println("Age:", p.age)
+	fmt.Println("City:", p.city)   //city is promoted field
+	fmt.Println("State:", p.state) //state is promoted field
 }
+
+//https://go.dev/play/p/J3SrrFU8n7i

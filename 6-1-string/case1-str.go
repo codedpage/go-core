@@ -11,12 +11,11 @@ func main() {
 	for i, v := range str {
 
 		fmt.Printf("%d -- %T -- %v == %c  # ", i, str[i], str[i], str[i])
-		fmt.Println( v, string(v))
+		fmt.Println(v, string(v))
 
 	}
 
 }
-
 
 /*
 0 -- uint8 -- 49 == 1  # 49 1
@@ -31,3 +30,5 @@ func main() {
 9 -- uint8 -- 101 == e  # 101 e
 
 */
+
+//https://go.dev/play/p/eyzTPWkZm_G

@@ -1,15 +1,17 @@
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
-type Employee struct {  
-    firstName, lastName string
-    age, salary         int
+type Employee struct {
+	firstName, lastName string
+	age, salary         int
 }
 
-func main() {  
-    var emp4 Employee //zero valued structure
-    fmt.Println("Employee 4", emp4)
+func main() {
+	var emp4 Employee //zero valued structure
+	fmt.Println("Employee 4", emp4)
 }
+
+//https://go.dev/play/p/dsFDkOiWjks

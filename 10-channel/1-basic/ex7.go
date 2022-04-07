@@ -41,3 +41,5 @@ func main() {
 	squares, cubes := <-sqrch, <-cubech
 	fmt.Println("Final output", squares+cubes)
 }
+
+//https://go.dev/play/p/Fk-KrgklVqE

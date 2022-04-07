@@ -12,13 +12,15 @@ func main() {
 	//b = a		//not allowed because type does not matched (string, myStrin)
 
 	//Re-assigning : allowed
-    //a = "a1"
+	//a = "a1"
 	//b = "b1"
 
-	fmt.Printf("%v %T ", a, a)	//aaa string
+	fmt.Printf("%v %T ", a, a) //aaa string
 
-	fmt.Printf("%v %T ", b, b)	//bbb main.myString
-	
-	c := 'u' //char 
-	fmt.Printf("%v %T ", c, c)	//117 int32
+	fmt.Printf("%v %T ", b, b) //bbb main.myString
+
+	c := 'u'                   //char
+	fmt.Printf("%v %T ", c, c) //117 int32
 }
+
+//https://go.dev/play/p/l7am0V9SGRW

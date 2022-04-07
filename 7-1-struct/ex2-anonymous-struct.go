@@ -1,19 +1,21 @@
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
-func main() {  
-    emp3 := struct {
-        firstName, lastName string
-        age, salary         int
-    }{
-        firstName: "Andreah",
-        lastName:  "Nikola",
-        age:       31,
-        salary:    5000,
-    }
+func main() {
+	emp3 := struct {
+		firstName, lastName string
+		age, salary         int
+	}{
+		firstName: "Andreah",
+		lastName:  "Nikola",
+		age:       31,
+		salary:    5000,
+	}
 
-    fmt.Println("Employee 3", emp3)
+	fmt.Println("Employee 3", emp3)
 }
+
+//https://go.dev/play/p/m0KYAVAIXAS

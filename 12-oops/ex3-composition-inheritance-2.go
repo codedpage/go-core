@@ -67,3 +67,5 @@ func main() {
 	}
 	w.contents()
 }
+
+//https://go.dev/play/p/tImS0VE4wKm

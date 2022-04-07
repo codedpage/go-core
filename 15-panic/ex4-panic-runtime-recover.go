@@ -1,23 +1,25 @@
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
-func r() {  
-    if r := recover(); r != nil {
-        fmt.Println("Recovered", r)
-    }
+func r() {
+	if r := recover(); r != nil {
+		fmt.Println("Recovered", r)
+	}
 }
 
-func a() {  
-    defer r()
-    n := []int{5, 7, 4}
-    fmt.Println(n[3])
-    fmt.Println("normally returned from a")
+func a() {
+	defer r()
+	n := []int{5, 7, 4}
+	fmt.Println(n[3])
+	fmt.Println("normally returned from a")
 }
 
-func main() {  
-    a()
-    fmt.Println("normally returned from main")
+func main() {
+	a()
+	fmt.Println("normally returned from main")
 }
+
+//https://go.dev/play/p/Ai19od_08dI

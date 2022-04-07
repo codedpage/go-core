@@ -23,3 +23,5 @@ func main() {
 		fmt.Println("Welcome", n)
 	}("Gophers")
 }
+
+//https://go.dev/play/p/Xv28paORuK0

@@ -1,14 +1,16 @@
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
-func main() {  
-    personSalary := map[string]int {
-        "steve": 12000,
-        "jamie": 15000,
-    }
-    personSalary["mike"] = 9000
-    fmt.Println("personSalary map contents:", personSalary)
+func main() {
+	personSalary := map[string]int{
+		"steve": 12000,
+		"jamie": 15000,
+	}
+	personSalary["mike"] = 9000
+	fmt.Println("personSalary map contents:", personSalary)
 }
+
+//https://go.dev/play/p/_35Add0TQOQ

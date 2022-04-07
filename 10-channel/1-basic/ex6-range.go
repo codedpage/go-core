@@ -1,19 +1,21 @@
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
-func producer(chnl chan int) {  
-    for i := 0; i < 10; i++ {
-        chnl <- i
-    }
-    close(chnl)
+func producer(chnl chan int) {
+	for i := 0; i < 10; i++ {
+		chnl <- i
+	}
+	close(chnl)
 }
-func main() {  
-    ch := make(chan int)
-    go producer(ch)
-    for v := range ch {
-        fmt.Println("Received ",v)
-    }
+func main() {
+	ch := make(chan int)
+	go producer(ch)
+	for v := range ch {
+		fmt.Println("Received ", v)
+	}
 }
+
+//https://go.dev/play/p/upHM4o5QIoJ

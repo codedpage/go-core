@@ -39,3 +39,5 @@ func main() {
 	wg.Wait()
 	fmt.Println("All go routines finished executing")
 }
+
+//https://go.dev/play/p/1Wg8k__JcUy

@@ -1,7 +1,9 @@
 package main
+
 import "fmt"
+
 /*
-type Error interface {  
+type Error interface {
     error
     // RuntimeError is a no-op function but
     // serves to distinguish types that are run time
@@ -11,12 +13,14 @@ type Error interface {
 }
 */
 
-func a() {  
-    n := []int{5, 7, 4}
-    fmt.Println(n[3])
-    fmt.Println("normally returned from a")
+func a() {
+	n := []int{5, 7, 4}
+	fmt.Println(n[3])
+	fmt.Println("normally returned from a")
 }
-func main() {  
-    a()
-    fmt.Println("normally returned from main")
+func main() {
+	a()
+	fmt.Println("normally returned from main")
 }
+
+//https://go.dev/play/p/SqVufU7DTVl

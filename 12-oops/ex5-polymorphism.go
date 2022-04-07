@@ -67,3 +67,5 @@ func main() {
 	incomeStreams := []Income{project1, project2, project3, bannerAd, popupAd}
 	calculateNetIncome(incomeStreams)
 }
+
+//https://go.dev/play/p/ib_q5XFup7G

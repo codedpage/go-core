@@ -1,34 +1,32 @@
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
-type order struct {  
-    ordId      int
-    customerId int
+type order struct {
+	ordId      int
+	customerId int
 }
-
 
 func (o order) String() string {
 	return fmt.Sprintf("%d, %d", o.ordId, o.customerId)
 }
 
-
-func createQuery(o order) string {  
-    i := fmt.Sprintf("insert into order values(%d, %d)", o.ordId, o.customerId)
-    return i
+func createQuery(o order) string {
+	i := fmt.Sprintf("insert into order values(%d, %d)", o.ordId, o.customerId)
+	return i
 }
 
+func main() {
+	o := order{
+		ordId:      11,
+		customerId: 22,
+	}
 
-func main() {  
-    o := order{
-        ordId:      11,
-        customerId: 22,
-    }
-	
 	//String() automatically called
-    fmt.Println(o)	// {11 22} or 11, 22
+	fmt.Println(o) // {11 22} or 11, 22
 
 	fmt.Println(createQuery(o))
 }
+//https://go.dev/play/p/pDq0fCuLi01

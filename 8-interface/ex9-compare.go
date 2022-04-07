@@ -2,32 +2,34 @@ package main
 
 import "fmt"
 
-type Describer interface {  
-    Describe()
+type Describer interface {
+	Describe()
 }
-type Person struct {  
-    name string
-    age  int
-}
-
-func (p Person) Describe() {  
-    fmt.Printf("%s is %d years old", p.name, p.age)
+type Person struct {
+	name string
+	age  int
 }
 
-func findType(i interface{}) {  
-    switch v := i.(type) {
-    case Describer:
-        v.Describe()
-    default:
-        fmt.Printf("unknown type\n")
-    }
+func (p Person) Describe() {
+	fmt.Printf("%s is %d years old", p.name, p.age)
 }
 
-func main() {  
-    findType("Naveen")
-    p := Person{
-        name: "Naveen R",
-        age:  25,
-    }
-    findType(p)
+func findType(i interface{}) {
+	switch v := i.(type) {
+	case Describer:
+		v.Describe()
+	default:
+		fmt.Printf("unknown type\n")
+	}
 }
+
+func main() {
+	findType("Naveen")
+	p := Person{
+		name: "Naveen R",
+		age:  25,
+	}
+	findType(p)
+}
+
+//https://go.dev/play/p/FWtzaPLlPRB

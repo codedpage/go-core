@@ -21,3 +21,5 @@ func main() {
 	}
 	fmt.Printf("Area of circle %0.2f", area)
 }
+
+//https://go.dev/play/p/9OtSlUT-ZoG

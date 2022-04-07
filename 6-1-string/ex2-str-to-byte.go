@@ -1,16 +1,18 @@
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
-func printBytes(s string) {  
-    for i:= 0; i < len(s); i++ {
-        fmt.Printf("%x ", s[i])
-    }
+func printBytes(s string) {
+	for i := 0; i < len(s); i++ {
+		fmt.Printf("%x ", s[i])
+	}
 }
 
-func main() {  
-    name := "Hello World"
-    printBytes(name)
+func main() {
+	name := "Hello World"
+	printBytes(name)
 }
+
+//https://go.dev/play/p/8LCEne7eex9

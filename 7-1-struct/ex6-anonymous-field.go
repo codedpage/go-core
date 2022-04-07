@@ -30,3 +30,5 @@ func main2() {
 	p1.int = 20
 	fmt.Println(p1) //{cc 20}
 }
+
+//https://go.dev/play/p/GS4puSk_ZiW

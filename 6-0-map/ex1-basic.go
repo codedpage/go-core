@@ -1,13 +1,15 @@
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
-func main() {  
-    var personSalary map[string]int
-    if personSalary == nil {
-        fmt.Println("map is nil. Going to make one.")
-        personSalary = make(map[string]int)
-    }
+func main() {
+	var personSalary map[string]int
+	if personSalary == nil {
+		fmt.Println("map is nil. Going to make one.")
+		personSalary = make(map[string]int)
+	}
 }
+
+//https://go.dev/play/p/aDBEetEwzqO

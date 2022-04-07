@@ -47,3 +47,5 @@ func main() {
 	print(p1.name, p1.con)
 	print(p1.con[0].email)
 }
+
+//https://go.dev/play/p/GB56SpE06TS

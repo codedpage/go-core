@@ -1,28 +1,28 @@
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
 /*
-func mutate(s string)string {  
-    s[0] = 'a'//any valid unicode character within single quote is a rune 
+func mutate(s string)string {
+    s[0] = 'a'//any valid unicode character within single quote is a rune
     return s
 }
 
-func main() {  
+func main() {
     h := "hello"
     fmt.Println(mutate(h))
 }
 */
 
-
-func mutate(s []rune) string {  
-    s[0] = 'a' 
-    return string(s)
+func mutate(s []rune) string {
+	s[0] = 'a'
+	return string(s)
 }
-func main() {  
-    h := "hello"
-    fmt.Println(mutate([]rune(h)))
+func main() {
+	h := "hello"
+	fmt.Println(mutate([]rune(h)))
 }
 
+//https://go.dev/play/p/7Yc-ucevVsU

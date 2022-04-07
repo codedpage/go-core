@@ -1,27 +1,29 @@
 package main
 
-import (  
-    "fmt"
+import (
+	"fmt"
 )
 
-type Tester interface {  
-    Test()
+type Tester interface {
+	Test()
 }
 
 type MyFloat float64
 
-func (m MyFloat) Test() {  
-    fmt.Println(m)
+func (m MyFloat) Test() {
+	fmt.Println(m)
 }
 
-func describe(t Tester) {  
-    fmt.Printf("Interface type %T value %v\n", t, t)
+func describe(t Tester) {
+	fmt.Printf("Interface type %T value %v\n", t, t)
 }
 
-func main() {  
-    var t Tester
-    f := MyFloat(89.7)
-    t = f
-    describe(t)
-    t.Test()
+func main() {
+	var t Tester
+	f := MyFloat(89.7)
+	t = f
+	describe(t)
+	t.Test()
 }
+
+//https://go.dev/play/p/ZpQhhhs2920
