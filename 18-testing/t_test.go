@@ -1,10 +1,15 @@
-//go test //can run one or more test case
+/*
+Name convension
+filename : xxxx_test.go
+Function : TestXxxxxx
 
-//Name convension
-//filename : xxxx_test.go
-//Function : Testxxxxxx
+e.g. addition_test.go
 
-//addition_test.go
+//run test case
+go test //one or more test case
+go test a_test.go
+
+*/
 package main
 
 import "testing"
@@ -17,4 +22,4 @@ func TestOnePlusOne(t *testing.T) {
 	}
 }
 
-//https://go.dev/play/p/yW5bpULOX4Q
+//https://go.dev/play/p/YTfeZ0e7fes
