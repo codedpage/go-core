@@ -26,7 +26,8 @@ func main() {
 	area, err := circleArea(radius)
 	if err != nil {
 		if err, ok := err.(*areaError); ok {
-			fmt.Printf("Radius %0.2f is less than zero", err.radius)
+			fmt.Printf("Radius %0.2f is less than zero\n", err.radius)
+			fmt.Println(err.err)
 			return
 		}
 		fmt.Println(err)
@@ -35,4 +36,4 @@ func main() {
 	fmt.Printf("Area of rectangle1 %0.2f", area)
 }
 
-//https://go.dev/play/p/_Tk4fFMP9vK
+//https://go.dev/play/p/3csVhGX1FCr
