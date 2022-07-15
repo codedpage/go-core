@@ -7,40 +7,40 @@ import (
 
 func main() {
 
-	//main1()
-	//main2()
-	//main3()
+	main1()
+	main2()
+	main3()
 	main4()
 }
 
-//core - HandleFunc
+//HandleFunc - 1
 func main1() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "HandleFunc")
+		fmt.Fprintf(w, "HandleFunc - 1")
 	})
 	http.ListenAndServe(":3001", nil)
 }
 
-//func - HandleFunc
+//HandleFunc -2
 func main2() {
 	http.HandleFunc("/", index)
 	http.ListenAndServe(":3002", nil)
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "HandleFunc - function")
+	fmt.Fprintf(w, "HandleFunc - 2")
 	//http.ServeFile(w, r, "index.hmt")
 }
 
-//core - Handle
+//Handle - HandlerFunc
 func main3() {
 	http.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Handle")
+		fmt.Fprintf(w, "Handle - HandlerFunc")
 	}))
 	http.ListenAndServe(":3003", nil)
 }
 
-//func - Handle
+//Handle - http.Handler
 func main4() {
 	http.Handle("/", Save())
 	http.ListenAndServe(":3004", nil)
@@ -48,6 +48,6 @@ func main4() {
 
 func Save() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Handle - function")
+		fmt.Fprintf(w, "Handle - http.Handler")
 	})
 }
